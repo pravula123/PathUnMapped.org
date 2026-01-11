@@ -11,18 +11,18 @@ document.querySelector('#app').innerHTML = `
       <li class="dropdown"><a href="#mentor">Mentor</a>
         <ul class="dropdown-menu">
           <li><a href="#register-mentor">Register as Mentor</a></li>
-          <li><a href="#list-mentors" id="list-mentors-link">List Mentors</a></li>
+          <li><a href="#list-mentors">List Mentors</a></li>
         </ul>
       </li>
       <li class="dropdown"><a href="#mentee">Mentee</a>
         <ul class="dropdown-menu">
           <li><a href="#register-mentee">Register as Mentee</a></li>
-          <li><a href="#list-mentees" id="list-mentees-link">List Mentees</a></li>
+          <li><a href="#list-mentees">List Mentees</a></li>
         </ul>
       </li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="#ai-pathfinder" id="ai-pathfinder-link">AI Pathfinder</a></li>
+      <li><a href="#ai-pathfinder">AI Pathfinder</a></li>
     </ul>
   </nav>
   <section class="hero" id="home">
@@ -65,12 +65,12 @@ document.querySelector('#app').innerHTML = `
     </form>
     <div id="mentor-register-success" style="display:none; margin-top:1.5rem; color:#2e7d32; font-weight:bold;"></div>
   </section>
-  <section class="mentors-list" id="list-mentors" style="display:none;">
+  <section class="mentors-list" id="list-mentors">
     <h2>Our Mentors</h2>
     <input type="text" id="mentor-search" class="mentor-search" placeholder="Search mentors by name or expertise..." />
     <div id="mentors-container" class="mentors-container"></div>
   </section>
-  <section class="mentees-list" id="list-mentees" style="display:none;">
+  <section class="mentees-list" id="list-mentees">
     <h2>Our Mentees</h2>
     <input type="text" id="mentee-search" class="mentor-search" placeholder="Search mentees by name or interest..." />
     <div id="mentees-container" class="mentors-container"></div>
@@ -79,14 +79,40 @@ document.querySelector('#app').innerHTML = `
     <h2>Contact</h2>
     <p>Want to contribute or get in touch? Email us at <a href="mailto:info@PathUnMapped.Org">info@PathUnMapped.Org</a></p>
   </section>
-  <section class="ai-pathfinder" id="ai-pathfinder" style="display:none;">
+  <section class="ai-pathfinder" id="ai-pathfinder">
     <h2>AI Pathfinder</h2>
     <p>Answer a few questions to discover your interests and get recommendations for your path.</p>
-    // Placeholder for the AI questionnaire
+    <button id="start-questionnaire" class="cta">Start Questionnaire</button>
+    <div id="questionnaire-container" style="display:none; margin-top:1.5rem;">
+      <h3 id="question-text"></h3>
+      <div id="options-container"></div>
+    </div>
+    <div id="recommendation-container" style="display:none; margin-top:1.5rem;"></div>
   </section>
 `;
 
 document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  function showSection(sectionId) {
+    sections.forEach(section => {
+      section.style.display = section.id === sectionId ? 'block' : 'none';
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const sectionId = this.getAttribute('href').substring(1);
+      showSection(sectionId);
+    });
+  });
+
+  // Show home section by default
+  showSection('home');
+
+
   const form = document.getElementById('mentor-register-form');
   const successDiv = document.getElementById('mentor-register-success');
   if (form) {
@@ -110,24 +136,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // Simulate sending email
       setTimeout(function() {
         alert(`A confirmation email has been sent to ${data.email} with your username and password.\n\nUsername: ${data.username}\nPassword: ${data.password}`);
-        // Hide registration section and show home section
-        document.getElementById('register-mentor').style.display = 'none';
-        document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+        showSection('home');
       }, 500);
     });
   }
 
   let allMentors = [];
-  // Show mentors list on click
-  document.getElementById('list-mentors-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('register-mentor').style.display = 'none';
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('about').style.display = 'none';
-    document.getElementById('contact').style.display = 'none';
-    document.getElementById('ai-pathfinder').style.display = 'none';
-    document.getElementById('list-mentors').style.display = 'block';
-    // Load mentors from sample JSON in public/mentors/mentors.json
+  document.querySelector('a[href="#list-mentors"]').addEventListener('click', function() {
     fetch('/mentors/mentors.json')
       .then(res => res.json())
       .then(data => {
@@ -158,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Search/filter mentors
   document.addEventListener('input', function(e) {
     if (e.target && e.target.id === 'mentor-search') {
       const query = e.target.value.trim().toLowerCase();
@@ -171,20 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   let allMentees = [];
-  // Show mentees list on click
-  document.getElementById('list-mentees-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('register-mentor').style.display = 'none';
-    if (document.getElementById('register-mentee')) {
-        document.getElementById('register-mentee').style.display = 'none';
-    }
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('about').style.display = 'none';
-    document.getElementById('contact').style.display = 'none';
-    document.getElementById('ai-pathfinder').style.display = 'none';
-    document.getElementById('list-mentors').style.display = 'none';
-    document.getElementById('list-mentees').style.display = 'block';
-    // Load mentees from JSON
+  document.querySelector('a[href="#list-mentees"]').addEventListener('click', function() {
     fetch('/mentees/mentees.json')
       .then(res => res.json())
       .then(data => {
@@ -193,20 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 
-  // AI Pathfinder link
-  document.getElementById('ai-pathfinder-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('register-mentor').style.display = 'none';
-    if (document.getElementById('register-mentee')) {
-        document.getElementById('register-mentee').style.display = 'none';
-    }
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('about').style.display = 'none';
-    document.getElementById('contact').style.display = 'none';
-    document.getElementById('list-mentors').style.display = 'none';
-    document.getElementById('list-mentees').style.display = 'none';
-    document.getElementById('ai-pathfinder').style.display = 'block';
-  });
 
   function renderMentees(mentees) {
     const container = document.getElementById('mentees-container');
@@ -230,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Search/filter mentees
   document.addEventListener('input', function(e) {
     if (e.target && e.target.id === 'mentee-search') {
       const query = e.target.value.trim().toLowerCase();
@@ -241,6 +227,99 @@ document.addEventListener('DOMContentLoaded', function() {
       renderMentees(filtered);
     }
   });
+
+  // AI Pathfinder Questionnaire
+  const questionnaireContainer = document.getElementById('questionnaire-container');
+  const questionText = document.getElementById('question-text');
+  const optionsContainer = document.getElementById('options-container');
+  const recommendationContainer = document.getElementById('recommendation-container');
+  const startButton = document.getElementById('start-questionnaire');
+
+  const questions = [
+    {
+      question: "What is your primary goal?",
+      options: {
+        "Career growth": "career",
+        "Skill development": "skill",
+        "Personal exploration": "personal"
+      }
+    },
+    {
+      question: "Which of these areas are you most interested in?",
+      options: {
+        "Technology": "tech",
+        "Creative Arts": "creative",
+        "Business": "business"
+      }
+    },
+    {
+      question: "How do you prefer to learn?",
+      options: {
+        "Structured courses": "structured",
+        "Project-based learning": "project",
+        "Mentorship": "mentorship"
+      }
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let userAnswers = {};
+
+  startButton.addEventListener('click', () => {
+    startButton.style.display = 'none';
+    questionnaireContainer.style.display = 'block';
+    recommendationContainer.style.display = 'none';
+    currentQuestionIndex = 0;
+    userAnswers = {};
+    displayQuestion();
+  });
+
+  function displayQuestion() {
+    const question = questions[currentQuestionIndex];
+    questionText.textContent = question.question;
+    optionsContainer.innerHTML = '';
+
+    for (const [optionText, optionValue] of Object.entries(question.options)) {
+      const button = document.createElement('button');
+      button.textContent = optionText;
+      button.classList.add('cta');
+      button.addEventListener('click', () => {
+        userAnswers[currentQuestionIndex] = optionValue;
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          displayQuestion();
+        } else {
+          showRecommendation();
+        }
+      });
+      optionsContainer.appendChild(button);
+    }
+  }
+
+  function showRecommendation() {
+    questionnaireContainer.style.display = 'none';
+    recommendationContainer.style.display = 'block';
+
+    // This is a simple recommendation logic. You can expand this with more complex rules.
+    let recommendation = "Based on your answers, we recommend exploring our general mentorship program.";
+    if (userAnswers[1] === 'tech' && userAnswers[2] === 'project') {
+      recommendation = "You seem interested in technology and project-based learning. We recommend finding a mentor with a strong technical background to guide you through a real-world project.";
+    } else if (userAnswers[0] === 'career' && userAnswers[1] === 'business') {
+      recommendation = "For your career growth in business, we suggest connecting with an experienced entrepreneur or a business leader in our mentorship program.";
+    }
+
+    recommendationContainer.innerHTML = `
+      <h3>Your Recommended Path</h3>
+      <p>${recommendation}</p>
+      <button id="restart-questionnaire" class="cta">Start Over</button>
+    `;
+
+    document.getElementById('restart-questionnaire').addEventListener('click', () => {
+      startButton.style.display = 'block';
+      recommendationContainer.style.display = 'none';
+    });
+  }
+
 });
 
 setupCounter(document.querySelector('#counter'))
