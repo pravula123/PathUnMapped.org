@@ -30,7 +30,7 @@ document.querySelector('#app').innerHTML = `
     <a class="cta" href="#about">Learn More</a>
   </section>
   <section class="about" id="about">
-    <h2>About unmapped.org</h2>
+    <h2>About PathUnMapped.org</h2>
     <p>unmapped.org is a platform for explorers, mappers, and storytellers to document and share places that are off the beaten path. Our mission is to make the invisible visible and connect people through discovery.</p>
   </section>
   <section class="register" id="register-mentor">
