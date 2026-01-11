@@ -175,7 +175,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('list-mentees-link').addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('register-mentor').style.display = 'none';
-    document.getElementById('register-mentee') && (document.getElementById('register-mentee').style.display = 'none');
+    if (document.getElementById('register-mentee')) {
+        document.getElementById('register-mentee').style.display = 'none';
+    }
     document.getElementById('home').style.display = 'none';
     document.getElementById('about').style.display = 'none';
     document.getElementById('contact').style.display = 'none';
@@ -195,7 +197,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('ai-pathfinder-link').addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('register-mentor').style.display = 'none';
-    document.getElementById('register-mentee') && (document.getElementById('register-mentee').style.display = 'none');
+    if (document.getElementById('register-mentee')) {
+        document.getElementById('register-mentee').style.display = 'none';
+    }
     document.getElementById('home').style.display = 'none';
     document.getElementById('about').style.display = 'none';
     document.getElementById('contact').style.display = 'none';
