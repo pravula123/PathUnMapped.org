@@ -1,0 +1,25 @@
+{
+  "mentees": [
+    {
+      "name": "Ravi Kumar",
+      "email": "ravi.kumar@example.com",
+      "interest": "GIS Mapping",
+      "bio": "Aspiring mapper eager to learn about geospatial technologies.",
+      "pic": "ravi.jpg"
+    },
+    {
+      "name": "Sara Lee",
+      "email": "sara.lee@example.com",
+      "interest": "Remote Sensing",
+      "bio": "Student interested in satellite imagery and environmental monitoring.",
+      "pic": "sara.jpg"
+    },
+    {
+      "name": "Mohammed Al-Sayed",
+      "email": "mohammed.sayed@example.com",
+      "interest": "Cartography",
+      "bio": "Passionate about map design and storytelling through maps.",
+      "pic": "mohammed.jpg"
+    }
+  ]
+}

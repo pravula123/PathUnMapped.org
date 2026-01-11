@@ -1,0 +1,25 @@
+{
+  "mentors": [
+    {
+      "name": "Dr. Priya Sharma",
+      "email": "priya.sharma@example.com",
+      "expertise": "Geospatial Analysis",
+      "bio": "Experienced GIS specialist and educator passionate about mapping the unknown.",
+      "pic": "priya.jpg"
+    },
+    {
+      "name": "Alex Kim",
+      "email": "alex.kim@example.com",
+      "expertise": "Remote Sensing",
+      "bio": "Remote sensing expert with a love for satellite imagery and open data.",
+      "pic": "alex.jpg"
+    },
+    {
+      "name": "Fatima Al-Farsi",
+      "email": "fatima.alfarsi@example.com",
+      "expertise": "Cartography",
+      "bio": "Award-winning cartographer and mentor for young explorers.",
+      "pic": "fatima.jpg"
+    }
+  ]
+}
