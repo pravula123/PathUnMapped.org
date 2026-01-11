@@ -5,7 +5,7 @@ import { setupCounter } from './counter.js'
 
 document.querySelector('#app').innerHTML = `
   <nav class="navbar">
-    <div class="logo">unmapped<span class="dot">.</span>org</div>
+    <div class="logo">PathUnMapped<span class="dot">.</span>Org</div>
     <ul class="nav-links">
       <li><a href="#home">Home</a></li>
       <li class="dropdown"><a href="#mentor">Mentor</a>
@@ -22,16 +22,17 @@ document.querySelector('#app').innerHTML = `
       </li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="#ai-pathfinder" id="ai-pathfinder-link">AI Pathfinder</a></li>
     </ul>
   </nav>
   <section class="hero" id="home">
-    <h1>Welcome to unmapped.org</h1>
+    <h1>Welcome to PathUnMapped.Org</h1>
     <p>Discover, explore, and share the world's unmapped places.<br>Join our community to put the unknown on the map.</p>
     <a class="cta" href="#about">Learn More</a>
   </section>
   <section class="about" id="about">
-    <h2>About PathUnMapped.org</h2>
-    <p>unmapped.org is a platform for explorers, mappers, and storytellers to document and share places that are off the beaten path. Our mission is to make the invisible visible and connect people through discovery.</p>
+    <h2>About PathUnMapped.Org</h2>
+    <p>PathUnMapped.Org is a platform for explorers, mappers, and storytellers to document and share places that are off the beaten path. Our mission is to make the invisible visible and connect people through discovery.</p>
   </section>
   <section class="register" id="register-mentor">
     <h2>Register as Mentor</h2>
@@ -76,7 +77,12 @@ document.querySelector('#app').innerHTML = `
   </section>
   <section class="contact" id="contact">
     <h2>Contact</h2>
-    <p>Want to contribute or get in touch? Email us at <a href="mailto:info@unmapped.org">info@unmapped.org</a></p>
+    <p>Want to contribute or get in touch? Email us at <a href="mailto:info@PathUnMapped.Org">info@PathUnMapped.Org</a></p>
+  </section>
+  <section class="ai-pathfinder" id="ai-pathfinder" style="display:none;">
+    <h2>AI Pathfinder</h2>
+    <p>Answer a few questions to discover your interests and get recommendations for your path.</p>
+    // Placeholder for the AI questionnaire
   </section>
 `;
 
@@ -119,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('home').style.display = 'none';
     document.getElementById('about').style.display = 'none';
     document.getElementById('contact').style.display = 'none';
+    document.getElementById('ai-pathfinder').style.display = 'none';
     document.getElementById('list-mentors').style.display = 'block';
     // Load mentors from sample JSON in public/mentors/mentors.json
     fetch('/mentors/mentors.json')
@@ -172,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('home').style.display = 'none';
     document.getElementById('about').style.display = 'none';
     document.getElementById('contact').style.display = 'none';
+    document.getElementById('ai-pathfinder').style.display = 'none';
     document.getElementById('list-mentors').style.display = 'none';
     document.getElementById('list-mentees').style.display = 'block';
     // Load mentees from JSON
@@ -181,6 +189,19 @@ document.addEventListener('DOMContentLoaded', function() {
         allMentees = data.mentees || [];
         renderMentees(allMentees);
       });
+  });
+
+  // AI Pathfinder link
+  document.getElementById('ai-pathfinder-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('register-mentor').style.display = 'none';
+    document.getElementById('register-mentee') && (document.getElementById('register-mentee').style.display = 'none');
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('about').style.display = 'none';
+    document.getElementById('contact').style.display = 'none';
+    document.getElementById('list-mentors').style.display = 'none';
+    document.getElementById('list-mentees').style.display = 'none';
+    document.getElementById('ai-pathfinder').style.display = 'block';
   });
 
   function renderMentees(mentees) {
